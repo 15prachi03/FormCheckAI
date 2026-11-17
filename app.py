@@ -36,7 +36,9 @@ FIELD_PATTERNS = {
     "Date of birth": [
         r"(?:date of birth|dob|birth date)\s*[:\-]?\s*([0-9./-]{6,12})"
     ],
+    
     "Email": [r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"],
+
     "Phone": [
         r"(?:phone|mobile|contact|telephone)(?:\s+(?:number|no\.?))?\s*[:\-]?\s*(\+?\d[\d\s-]{7,18}\d)",
         r"\b([6-9]\d{9})\b"

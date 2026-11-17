@@ -143,12 +143,26 @@ if (!window.formCheckListenerAdded) {
                     return;
                 }
 
-                // Text, email, phone, date, select and textarea fields
+                // Detect field type using its question name
                 const name = getFieldName(field, index);
+                const lowerName = name.toLowerCase();
 
+                let detectedType = field.type || field.tagName.toLowerCase();
+
+                // Email detection
+                if (/email|e-mail/.test(lowerName)) {
+                    detectedType = "email";
+                }
+
+                // Phone number detection
+                else if (/phone|mobile|contact number|telephone/.test(lowerName)) {
+                    detectedType = "tel";
+                }
+
+                // Normal text, email, phone, date, select and textarea fields
                 backendFields.push({
                     name: name,
-                    type: field.type || field.tagName.toLowerCase(),
+                    type: detectedType,
                     value: field.value.trim(),
                     required: isRequiredField(field),
                     checked: false,
