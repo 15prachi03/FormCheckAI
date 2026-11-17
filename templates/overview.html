@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block title %}Overview · FormCheck AI{% endblock %}{% block crumb %}Overview{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy"><span class="eyebrow">AI-POWERED DOCUMENT VERIFICATION</span><h1>Confidence starts with<br><em>correct details.</em></h1><p>Check important information, find missing fields and compare details across documents—all in one workspace.</p><a class="button button-primary" href="{{ url_for('analyze_page') }}">＋ Start an analysis <span>→</span></a></div>
+  <div class="hero-visual"><div class="hero-orbit"></div><div class="hero-paper"><div class="paper-brand"></div><div class="paper-line wide"></div><div class="paper-line"></div><div class="paper-line short"></div><div class="paper-stamp">✓</div><div class="paper-line"></div><div class="paper-line short"></div></div><div class="floating-note"><span>✓</span><div><b>Ready to verify</b><small>PDF · JPG · PNG</small></div></div></div>
+</section>
+<div class="section-heading"><div><span class="eyebrow">YOUR WORKSPACE</span><h2>At a glance</h2></div><a class="text-link" href="{{ url_for('history') }}">View all activity →</a></div>
+<div class="metric-grid">
+  <article class="metric-card"><div class="metric-icon teal">▤</div><span>Total analyses</span><strong>{{ total }}</strong><small>Saved verification sessions</small></article>
+  <article class="metric-card"><div class="metric-icon mint">✓</div><span>Supported formats</span><strong>04</strong><small>PDF, PNG, JPG and JPEG</small></article>
+  <article class="metric-card"><div class="metric-icon gold">⇄</div><span>Documents per check</span><strong>02</strong><small>Compare up to two files</small></article>
+</div>
+<div class="section-heading"><div><span class="eyebrow">RECENT ACTIVITY</span><h2>Latest analyses</h2></div><a class="text-link" href="{{ url_for('analyze_page') }}">New analysis +</a></div>
+<div class="surface table-surface">
+  {% if recent %}<div class="table-wrap"><table><thead><tr><th>DOCUMENTS</th><th>DATE</th><th>SCORE</th><th>ISSUES</th><th></th></tr></thead><tbody>
+  {% for item in recent %}<tr><td><strong>{{ item.filenames|join(', ') }}</strong></td><td>{{ item.created_at }}</td><td><span class="score-pill">{{ item.score }}%</span></td><td>{{ item.errors }}</td><td><a class="row-link" href="{{ url_for('results_page', analysis_id=item.id) }}">View report →</a></td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty-state"><div class="empty-icon">▤</div><h3>Your workspace is ready</h3><p>Your completed document checks will appear here.</p><a class="button button-primary" href="{{ url_for('analyze_page') }}">Run your first analysis</a></div>{% endif %}
+</div>
+{% endblock %}

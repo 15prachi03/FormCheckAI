@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormCheck AI Test Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #263248;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #5946a5;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            border: 1px solid #ccd2df;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        fieldset {
+            border: 1px solid #ccd2df;
+            border-radius: 6px;
+            margin-top: 8px;
+            padding: 12px;
+        }
+
+        fieldset label,
+        .checkbox-group label {
+            font-weight: normal;
+            margin-top: 8px;
+        }
+
+        button {
+            margin-top: 22px;
+            padding: 11px 20px;
+            background: #6552b5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Student Registration Form</h2>
+
+    <form>
+
+        <!-- Personal Information -->
+
+        <label for="fullname">Full Name:</label>
+        <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <label for="email">Email:</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="phone">Phone Number:</label>
+        <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter phone number"
+            required
+        >
+
+        <label for="dob">Date of Birth:</label>
+        <input
+            type="date"
+            id="dob"
+            name="dob"
+            required
+        >
+
+        <label for="college">College:</label>
+        <input
+            type="text"
+            id="college"
+            name="college"
+            placeholder="Enter college name"
+            required
+        >
+
+        <!-- Radio Button Test -->
+
+        <label>Gender:</label>
+
+        <fieldset>
+            <label>
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    required
+                >
+                Male
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    required
+                >
+                Female
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="gender"
+                    value="Other"
+                    required
+                >
+                Other
+            </label>
+        </fieldset>
+
+        <!-- Required Checkbox Test -->
+
+        <label>
+            <input
+                type="checkbox"
+                name="terms"
+                required
+            >
+            I agree to the Terms and Conditions
+        </label>
+
+        <!-- Optional Checkbox Test -->
+
+        <label>Hobbies:</label>
+
+        <div class="checkbox-group">
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="hobbies"
+                    value="Reading"
+                >
+                Reading
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="hobbies"
+                    value="Music"
+                >
+                Music
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="hobbies"
+                    value="Sports"
+                >
+                Sports
+            </label>
+
+        </div>
+
+        <button type="button">Submit</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

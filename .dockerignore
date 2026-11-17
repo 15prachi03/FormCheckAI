@@ -1,0 +1,13 @@
+
+.git/
+.gitignore
+.vscode/
+__pycache__/
+*.pyc
+venv/
+.venv/
+env/
+.env
+formcheck.db
+uploads/
+formcheck-extension/

@@ -1,0 +1,106 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 340px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #263248;
+}
+
+h2 {
+    color: #5946a5;
+    margin: 0 0 8px;
+    font-size: 23px;
+}
+
+p {
+    color: #68748a;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #6552b5;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #51409b;
+}
+
+#result {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: white;
+    color: #344054;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.summary {
+    background: #eeeafd;
+    color: #51409b;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.field-card {
+    padding: 11px;
+    margin-bottom: 9px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    background: white;
+}
+
+.field-card strong {
+    font-size: 13px;
+}
+
+.field-card p {
+    margin: 5px 0 0;
+    font-size: 12px;
+}
+
+.field-card.invalid {
+    border-color: #dc4545;
+    background: #fff1f1;
+}
+
+.field-card.invalid strong {
+    color: #c53030;
+}
+
+.field-card.valid {
+    border-color: #24a36a;
+    background: #effaf4;
+}
+
+.field-card.valid strong {
+    color: #16804e;
+}
+
+.field-card.skipped {
+    border-color: #d69b32;
+    background: #fff9eb;
+}
+
+.field-card.skipped strong {
+    color: #996b16;
+}

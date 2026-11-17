@@ -1,0 +1,86 @@
+{% extends "base.html" %}{% block title %}New analysis · FormCheck AI{% endblock %}{% block crumb %}New analysis{% endblock %}
+{% block content %}
+<div class="page-intro"><span class="eyebrow">START A VERIFICATION</span><h1>New document analysis</h1><p>Select your analysis mode and upload the required document(s).</p></div>
+
+<!-- Analysis Mode Selector -->
+<div class="analysis-modes-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+  <div class="surface mode-card selected-mode-card" data-mode="single" style="cursor: pointer; border: 2px solid var(--primary, #164e63); padding: 1.25rem; border-radius: 12px; transition: all 0.2s;">
+    <span class="badge" style="background: rgba(22,78,99,0.1); color: var(--primary, #164e63); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">MODE 1</span>
+    <h3 style="margin-top: 0.5rem; font-size: 1rem;">Single Document Validation</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted, #64748b); margin-bottom: 0;">Upload 1 filled form to check required fields, formats, and errors without reference files.</p>
+  </div>
+  <div class="surface mode-card" data-mode="cross" style="cursor: pointer; border: 2px solid transparent; padding: 1.25rem; border-radius: 12px; transition: all 0.2s;">
+    <span class="badge" style="background: rgba(22,78,99,0.1); color: var(--primary, #164e63); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">MODE 2</span>
+    <h3 style="margin-top: 0.5rem; font-size: 1rem;">Cross-Document Comparison</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted, #64748b); margin-bottom: 0;">Upload 2+ related documents to compare names, dates, addresses, and detect mismatches.</p>
+  </div>
+  <div class="surface mode-card" data-mode="reference" style="cursor: pointer; border: 2px solid transparent; padding: 1.25rem; border-radius: 12px; transition: all 0.2s;">
+    <span class="badge" style="background: rgba(22,78,99,0.1); color: var(--primary, #164e63); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">MODE 3</span>
+    <h3 style="margin-top: 0.5rem; font-size: 1rem;">Reference-Based Verification</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted, #64748b); margin-bottom: 0;">Upload 1 filled form and 1 reference guideline document to verify compliance.</p>
+  </div>
+</div>
+
+<div class="analysis-layout">
+<section class="surface upload-surface">
+  <div class="surface-heading"><div><span class="step-label">STEP 01</span><h2 id="uploadHeading">Upload your filled form</h2><p id="uploadSubtext">Choose 1 document for single validation.</p></div><div class="heading-icon">↑</div></div>
+  <form id="uploadForm">
+    <input type="hidden" id="analysisModeInput" name="analysis_mode" value="single">
+    <label class="dropzone" id="dropzone" for="documents"><div class="upload-cloud">↑</div><h3>Drag and drop your files here</h3><p>or <b>browse files</b> from your device</p><small id="dropzoneHint">PDF, PNG, JPG or JPEG · Exactly 1 file · 15 MB max</small></label>
+    <input type="file" id="documents" name="documents" accept=".pdf,.png,.jpg,.jpeg" multiple hidden>
+    <div id="fileList" class="file-list"></div>
+    <div class="privacy-note">▣ Your files are processed for analysis and are not stored as original uploads.</div>
+    <button type="submit" class="button button-primary full-button" id="analyzeBtn">✦ Analyze documents <span>→</span></button>
+  </form>
+  <div id="analysisProgress" class="progress-note hidden"><span class="spinner"></span> Extracting and validating document information…</div>
+</section>
+<aside class="surface guide-surface"><span class="eyebrow">WHAT HAPPENS NEXT</span><h2>From upload to insight.</h2>
+  <div class="guide-step"><span>01</span><div><b>Upload documents</b><p>Select PDF or image files based on your selected mode.</p></div></div>
+  <div class="guide-step"><span>02</span><div><b>OCR extracts details</b><p>Text recognition identifies names, dates, email and phone details.</p></div></div>
+  <div class="guide-step"><span>03</span><div><b>Validation & comparison</b><p>Required fields and document differences are checked according to mode rules.</p></div></div>
+  <div class="guide-callout"> <b>Tip</b><p>For the best results, upload clear, readable scans with the full document visible.</p></div>
+</aside></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".mode-card");
+  const modeInput = document.getElementById("analysisModeInput");
+  const uploadHeading = document.getElementById("uploadHeading");
+  const uploadSubtext = document.getElementById("uploadSubtext");
+  const dropzoneHint = document.getElementById("dropzoneHint");
+  
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      cards.forEach(c => {
+        c.style.borderColor = "transparent";
+        c.classList.remove("selected-mode-card");
+      });
+      card.style.borderColor = "var(--primary, #164e63)";
+      card.classList.add("selected-mode-card");
+      
+      const mode = card.dataset.mode;
+      modeInput.value = mode;
+      
+      // Clear selected files when switching modes for clarity
+      if (typeof window.clearSelectedFiles === "function") {
+        window.clearSelectedFiles();
+      }
+
+      if (mode === "single") {
+        uploadHeading.textContent = "Upload your filled form";
+        uploadSubtext.textContent = "Choose 1 document for single validation.";
+        dropzoneHint.textContent = "PDF, PNG, JPG or JPEG · Exactly 1 file · 15 MB max";
+      } else if (mode === "cross") {
+        uploadHeading.textContent = "Upload documents to compare";
+        uploadSubtext.textContent = "Choose 2 or more related documents.";
+        dropzoneHint.textContent = "PDF, PNG, JPG or JPEG · 2 or more files · 15 MB each";
+      } else if (mode === "reference") {
+        uploadHeading.textContent = "Upload form and reference document";
+        uploadSubtext.textContent = "Choose 1 filled form and 1 reference guideline.";
+        dropzoneHint.textContent = "PDF, PNG, JPG or JPEG · Exactly 2 files (Form first, Reference second)";
+      }
+    });
+  });
+});
+</script>
+{% endblock %}

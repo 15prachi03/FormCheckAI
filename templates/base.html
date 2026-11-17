@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}FormCheck AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{{ url_for('overview') }}"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>FormCheck<span class="brand-ai"> AI</span></span></a>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav class="nav-group">
+      <a class="nav-link {% if active=='overview' %}active{% endif %}" href="{{ url_for('overview') }}"><span class="nav-icon">⌂</span>Overview</a>
+      <a class="nav-link {% if active=='analyze' %}active{% endif %}" href="{{ url_for('analyze_page') }}"><span class="nav-icon">＋</span>New analysis<span class="nav-tag">NEW</span></a>
+      <a class="nav-link {% if active=='history' %}active{% endif %}" href="{{ url_for('history') }}"><span class="nav-icon">◷</span>Analysis history</a>
+      <a class="nav-link {% if active=='library' %}active{% endif %}" href="{{ url_for('library') }}"><span class="nav-icon">▤</span>Document library</a>
+    </nav>
+    <div class="nav-caption nav-caption-spaced">INSIGHTS</div>
+    <nav class="nav-group">
+      <a class="nav-link {% if active=='analytics' %}active{% endif %}" href="{{ url_for('analytics') }}"><span class="nav-icon">▥</span>Analytics</a>
+      <a class="nav-link {% if active=='reports' %}active{% endif %}" href="{{ url_for('reports') }}"><span class="nav-icon">▧</span>Reports & exports</a>
+    </nav>
+    <div class="nav-caption nav-caption-spaced">SUPPORT</div>
+    <nav class="nav-group">
+      <a class="nav-link {% if active=='how' %}active{% endif %}" href="{{ url_for('how_it_works') }}"><span class="nav-icon">ⓘ</span>How it works</a>
+      <a class="nav-link {% if active=='settings' %}active{% endif %}" href="{{ url_for('settings') }}"><span class="nav-icon">⚙</span>Settings</a>
+      <a class="nav-link {% if active=='help' %}active{% endif %}" href="{{ url_for('help_page') }}"><span class="nav-icon">?</span>Help & support</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-tip"><div class="tip-symbol">✦</div><strong>Verify with confidence</strong><p>Keep your important details consistent across documents.</p><a href="{{ url_for('how_it_works') }}">Learn how it works →</a></div>
+      <div class="profile-row"><div class="profile-avatar">FC</div><div><strong>FormCheck User</strong><small>Personal workspace</small></div></div>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+      <div class="breadcrumbs">Workspace <span>/</span> <strong>{% block crumb %}Overview{% endblock %}</strong></div>
+      <div class="topbar-actions"><span class="secure-pill"><i></i> Secure workspace</span><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☾ <span>Dark mode</span></button><div class="top-avatar">FC</div></div>
+    </header>
+    <div class="page-content">{% block content %}{% endblock %}</div>
+    <footer class="footer"><span>© 2026 FormCheck AI</span><span>Intelligent document verification · Made with care</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body></html>
