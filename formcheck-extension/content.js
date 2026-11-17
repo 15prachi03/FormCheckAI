@@ -17,6 +17,67 @@ if (!window.formCheckListenerAdded) {
             const targets = [];
             const processedRadios = new Set();
 
+            // Detect whether a field is required
+            function isRequiredField(field) {
+
+                // Standard HTML required detection
+                if (
+                    field.required ||
+                    field.hasAttribute("required") ||
+                    field.getAttribute("aria-required") === "true"
+                ) {
+                    return true;
+                }
+
+                // Google Forms required detection
+                const question = field.closest('[role="listitem"]');
+
+                if (question) {
+                    const requiredMarker = Array.from(
+                        question.querySelectorAll("[aria-label]")
+                    ).some(element =>
+                        element.getAttribute("aria-label")
+                            ?.toLowerCase() === "required question"
+                    );
+
+                    if (requiredMarker) return true;
+                }
+
+                return false;
+            }
+
+            // Detect the field's question name
+            function getFieldName(field, index) {
+
+                const question = field.closest('[role="listitem"]');
+
+                const googleFormName = question
+                    ?.innerText
+                    ?.split("\n")
+                    .map(text => text.trim())
+                    .find(text =>
+                        text &&
+                        text !== "*" &&
+                        !text.toLowerCase().includes("required question")
+                    )
+                    ?.replace(/\s*\*$/, "");
+
+                const previousLabel =
+                    field.previousElementSibling?.tagName === "LABEL"
+                        ? field.previousElementSibling.innerText.trim()
+                        : "";
+
+                return (
+                    field.labels?.[0]?.innerText?.trim() ||
+                    previousLabel ||
+                    googleFormName ||
+                    field.getAttribute("aria-label") ||
+                    field.name ||
+                    field.placeholder ||
+                    `Field ${index + 1}`
+                ).replace(/:+\s*$/, "");
+            }
+
             fields.forEach(field => {
                 field.style.removeProperty("outline");
                 field.style.removeProperty("outline-offset");
@@ -47,8 +108,7 @@ if (!window.formCheckListenerAdded) {
 
                     const name = (
                         legend ||
-                        field.name ||
-                        field.getAttribute("aria-label") ||
+                        getFieldName(field, index) ||
                         "Radio selection"
                     ).replace(/:+\s*$/, "");
 
@@ -56,7 +116,7 @@ if (!window.formCheckListenerAdded) {
                         name: name,
                         type: "radio",
                         value: selected ? selected.value : "",
-                        required: group.some(item => item.required),
+                        required: group.some(item => isRequiredField(item)),
                         checked: Boolean(selected),
                         valid: group.every(item => item.validity.valid)
                     });
@@ -68,18 +128,13 @@ if (!window.formCheckListenerAdded) {
                 // Checkboxes
                 if (field.type === "checkbox") {
 
-                    const name = (
-                        field.labels?.[0]?.innerText?.trim() ||
-                        field.getAttribute("aria-label") ||
-                        field.name ||
-                        `Checkbox ${index + 1}`
-                    ).replace(/:+\s*$/, "");
+                    const name = getFieldName(field, index);
 
                     backendFields.push({
                         name: name,
                         type: "checkbox",
                         value: field.checked ? field.value : "",
-                        required: field.required,
+                        required: isRequiredField(field),
                         checked: field.checked,
                         valid: field.validity.valid
                     });
@@ -89,25 +144,13 @@ if (!window.formCheckListenerAdded) {
                 }
 
                 // Text, email, phone, date, select and textarea fields
-                const previousLabel =
-                    field.previousElementSibling?.tagName === "LABEL"
-                        ? field.previousElementSibling.innerText.trim()
-                        : "";
-
-                const name = (
-                    field.labels?.[0]?.innerText?.trim() ||
-                    previousLabel ||
-                    field.getAttribute("aria-label") ||
-                    field.name ||
-                    field.placeholder ||
-                    `Field ${index + 1}`
-                ).replace(/:+\s*$/, "");
+                const name = getFieldName(field, index);
 
                 backendFields.push({
                     name: name,
                     type: field.type || field.tagName.toLowerCase(),
                     value: field.value.trim(),
-                    required: field.required,
+                    required: isRequiredField(field),
                     checked: false,
                     valid: field.validity.valid
                 });
