@@ -21,9 +21,9 @@ document.getElementById("checkForm").addEventListener("click", async () => {
             { action: "CHECK_FORM" }
         );
 
-        // Send collected fields to Flask backend
+        // Send collected fields to deployed Flask backend
         const apiResponse = await fetch(
-            "http://127.0.0.1:5000/api/validate-online-form",
+            "https://formcheckai-32co.onrender.com/api/validate-online-form",
             {
                 method: "POST",
                 headers: {
@@ -81,7 +81,6 @@ document.getElementById("checkForm").addEventListener("click", async () => {
 
         result.textContent =
             "Unable to connect to FormCheck AI. " +
-            "Please check that the Flask application is running " +
-            "and try again.";
+            "Please check your internet connection and try again.";
     }
 });
